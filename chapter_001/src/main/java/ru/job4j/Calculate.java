@@ -1,17 +1,17 @@
-package ru.job4j.calculate;
+package ru.job4j;
 
 /**
- *Класс Calculate предназанчен для вывода строки
+ *Класс Calculate предназначен для вывода строки
  *"Hello, world!" в консоль.
  *@author Kuchumov
- *@since 09.09.2018
+ *@since 09.05.2018
  */
 
 public class Calculate{
 	
 	/**
-	 *Метод main предназанчен для вывода строки
-     *"Hello, world!" в консоль.
+	 *Метод main предназначен для вывода строки
+	 *"Hello, world!" в консоль.
 	 *@param args - args
 	 */
 	
