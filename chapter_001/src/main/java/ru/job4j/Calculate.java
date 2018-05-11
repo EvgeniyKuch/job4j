@@ -7,7 +7,7 @@ package ru.job4j;
  *@since 09.05.2018
  */
 
-public class Calculate{
+public class Calculate {
 	
 	/**
 	 *Метод main предназначен для вывода строки
@@ -15,7 +15,7 @@ public class Calculate{
 	 *@param args - args
 	 */
 	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		System.out.println("Hello, world!");
 	}
 	
