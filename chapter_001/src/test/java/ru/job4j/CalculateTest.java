@@ -23,7 +23,7 @@ public class CalculateTest {
 @Test
 public void whenTakeNameThenTreeEchoPlusName() {
 	String input = "Evgeniy Kuchumov";
-	String expect = "Echo, echo, echo : Evgeniy Kuchumov"; 
+	String expect = "Echo, echo, echo : Evgeniy Kuchumov";
 	Calculate calc = new Calculate();
 	String result = calc.echo(input);
 	assertThat(result, is(expect));
