@@ -26,6 +26,6 @@ public class Max {
      * @return - максимум
      */
     public int maxOfThreeNumbers(int first, int second, int third) {
-        return this.max(this.max(first, second), this.max(second, third));
+        return this.max(this.max(first, second), third);
     }
 }
