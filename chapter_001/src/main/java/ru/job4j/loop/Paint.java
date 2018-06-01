@@ -12,8 +12,8 @@ public class Paint {
 
     /**
      * Правый треугольник.
-     * @param height - высота.
-     * @return - правый треугольник в псевдографике.
+     * @param height высота.
+     * @return правый треугольник в псевдографике.
      */
     public String rightTrl(int height) {
         return this.loopBy(
@@ -25,8 +25,8 @@ public class Paint {
 
     /**
      * Левый треугольник.
-     * @param height - высота.
-     * @return - левый треугольник в псевдографике.
+     * @param height высота.
+     * @return левый треугольник в псевдографике.
      */
     public String leftTrl(int height) {
         return this.loopBy(
@@ -38,8 +38,8 @@ public class Paint {
 
     /**
      * Пирамида.
-     * @param height - высота.
-     * @return - пирамида в псевдографике.
+     * @param height высота.
+     * @return пирамида в псевдографике.
      */
     public String pyramid(int height) {
         return this.loopBy(

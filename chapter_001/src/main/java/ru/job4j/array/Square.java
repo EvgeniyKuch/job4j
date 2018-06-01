@@ -7,8 +7,8 @@ public class Square {
 
     /**
      * Заполняет массив элементами от 1 до bound, возведенными в квадрат.
-     * @param bound - размер массива.
-     * @return - массив, заполненный элементами от 1 до bound, возведенными в квадрат.
+     * @param bound размер массива.
+     * @return массив, заполненный элементами от 1 до bound, возведенными в квадрат.
      */
     public int[] calculate(int bound) {
         int[] rst = new int[bound];

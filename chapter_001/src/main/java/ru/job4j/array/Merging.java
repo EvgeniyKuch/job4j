@@ -9,7 +9,7 @@ public class Merging {
      * Слияние двух отсортированных по возрастанию массивов в один отсортированный по возрастанию массив.
      * @param first первый массив типа int[]. Должен быть отсортирован по возрасатнию.
      * @param second второй массив типа int[]. Должен быть отсортирован по возрасатнию.
-     * @return - отсортированный по возрастанию массив, состоящий из элементов массивов int[] first и int[] second.
+     * @return отсортированный по возрастанию массив, состоящий из элементов массивов int[] first и int[] second.
      */
     public int[] arraysMerging(int[] first, int[] second) {
         int[] result = new int[first.length + second.length];

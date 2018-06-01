@@ -7,9 +7,9 @@ public class Board {
 
     /**
      * Метод paint рисует шахматную доску из символов 'X' и пробелов.
-     * @param width - ширина доски.
-     * @param height - высота доски.
-     * @return
+     * @param width ширина доски.
+     * @param height высота доски.
+     * @return шахматная доска из символов 'X' и пробелов.
      */
     public String paint(int width, int height) {
         StringBuilder screen = new StringBuilder();

@@ -9,8 +9,8 @@ public class ArrayDuplicate {
 
     /**
      * Удаляет дубликаты в массиве строк.
-     * @param array - исходный массив.
-     * @return - массив без дубликатов.
+     * @param array исходный массив.
+     * @return массив без дубликатов.
      */
     public String[] remove(String[] array) {
         int end = array.length;

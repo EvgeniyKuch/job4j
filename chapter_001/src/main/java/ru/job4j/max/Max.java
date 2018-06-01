@@ -10,9 +10,9 @@ public class Max {
 
     /**
      * Максимум из 2-х чисел.
-     * @param first - первое число.
-     * @param second - второе число.
-     * @return - максимум.
+     * @param first первое число.
+     * @param second второе число.
+     * @return максимум.
      */
     public int max(int first, int second) {
         return first > second ? first : second;
@@ -20,10 +20,10 @@ public class Max {
 
     /**
      * Максимум из 3-х чисел.
-     * @param first - первое число.
-     * @param second - второе число.
-     * @param third - третье число.
-     * @return - максимум
+     * @param first первое число.
+     * @param second второе число.
+     * @param third третье число.
+     * @return максимум
      */
     public int maxOfThreeNumbers(int first, int second, int third) {
         return this.max(this.max(first, second), third);

@@ -7,8 +7,8 @@ public class BubbleSort {
 
     /**
      * Сортировка пузырьком.
-     * @param array - входной массив.
-     * @return - отсортированный по возрастанию массив.
+     * @param array входной массив.
+     * @return отсортированный по возрастанию массив.
      */
     public int[] sort(int[] array) {
         for (int count = array.length - 1; count > 0; count--) {

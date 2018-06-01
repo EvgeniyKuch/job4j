@@ -9,8 +9,8 @@ public class Point {
 
     /**
      * Конструктор
-     * @param x - координата X.
-     * @param y - координата Y.
+     * @param x координата X.
+     * @param y координата Y.
      */
     public Point(int x, int y) {
         this.x = x;
@@ -19,8 +19,8 @@ public class Point {
 
     /**
      * Расстояние между текущей точкой и точкой that.
-     * @param that - вторая точка.
-     * @return
+     * @param that вторая точка.
+     * @return расстояние между текущей точкой и точкой that.
      */
     public double distanceTo(Point that) {
         return Math.sqrt(
