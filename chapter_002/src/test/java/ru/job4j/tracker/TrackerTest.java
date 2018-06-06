@@ -16,9 +16,12 @@ public class TrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
-        tracker.add(item);
-        assertThat(tracker.getAll()[0], is(item));
+        Item itemOne = new Item("test1", "testDescription");
+        Item itemTwo = new Item("test2", "testDescription");
+        tracker.add(itemOne);
+        tracker.add(itemTwo);
+        Item[] expect = {itemOne, itemTwo};
+        assertThat(tracker.findAll(), is(expect));
     }
 
     /**
