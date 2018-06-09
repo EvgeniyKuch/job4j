@@ -125,7 +125,11 @@ public class StartUI {
     private void deleteItem() {
         System.out.println("-------------- Удаление заявки --------------");
         String id = this.input.ask("Введите id удаляемой заявки:");
-        this.tracker.delete(id);
+        if (this.tracker.findById(id) != null) {
+            this.tracker.delete(id);
+        } else {
+            System.out.println("Заявка не найдена");
+        }
         System.out.println("------- Завершение операции удаления --------");
     }
 
@@ -135,10 +139,14 @@ public class StartUI {
     private void replaceItem() {
         System.out.println("------------ Замена заявки --------------");
         String id = this.input.ask("Введите id заменяемой заявки: ");
-        String name = this.input.ask("Введите новое имя заявки: ");
-        String desc = this.input.ask("Введите новое описание заявки: ");
-        Item item = new Item(name, desc);
-        this.tracker.replace(id, item);
+        if (this.tracker.findById(id) != null) {
+            String name = this.input.ask("Введите новое имя заявки: ");
+            String desc = this.input.ask("Введите новое описание заявки: ");
+            Item item = new Item(name, desc);
+            this.tracker.replace(id, item);
+        } else {
+            System.out.println("Заявка не найдена");
+        }
         System.out.println("-------- Завершение операции замены ---------");
     }
 
@@ -166,7 +174,7 @@ public class StartUI {
     }
 
     /**
-     * Метод показывает все заявки.
+     * Метод показывает все заявки с указанным именем.
      */
     private void findItemByName() {
         System.out.println("------------ Поиск заявки по имени --------------");

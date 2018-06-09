@@ -35,17 +35,12 @@ public class Tracker {
      * @param item заменяющая заявка.
      */
     public void replace(String id, Item item) {
-        boolean notFound = true;
         for (int i = 0; i != this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 this.items[i] = item;
                 this.items[i].setId(id);
-                notFound = false;
                 break;
             }
-        }
-        if (notFound) {
-            System.out.println("Заявка не найдена");
         }
     }
 
@@ -54,17 +49,12 @@ public class Tracker {
      * @param id id удаляемой заявки.
      */
     public void delete(String id) {
-        boolean notFound = true;
         for (int i = 0; i != this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 System.arraycopy(this.items, i + 1, this.items, i, this.items.length - i - 1);
                 this.position--;
-                notFound = false;
                 break;
             }
-        }
-        if (notFound) {
-            System.out.println("Заявка не найдена");
         }
     }
 
