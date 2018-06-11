@@ -90,8 +90,6 @@ public class Logic3T {
     private boolean checkLeftDiagonal(boolean soughtValue) {
         return checkDiagonal(soughtValue,
                 (i, j) -> i,
-                (i, j) -> i,
-                (i, j) -> i + 1,
                 (i, j) -> i + 1);
     }
 
@@ -104,9 +102,7 @@ public class Logic3T {
      */
     private boolean checkRightDiagonal(boolean soughtValue) {
         return checkDiagonal(soughtValue,
-                (i, j) -> i,
                 (i, j) -> j,
-                (i, j) -> i + 1,
                 (i, j) -> j - 1);
     }
 
@@ -137,10 +133,10 @@ public class Logic3T {
      * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
      */
     private boolean checkDiagonal(boolean soughtValue,
-                                  BinaryOperator<Integer> opOne,
                                   BinaryOperator<Integer> opTwo,
-                                  BinaryOperator<Integer> opThree,
                                   BinaryOperator<Integer> opFour) {
+        BinaryOperator<Integer> opOne = (i, j) -> i;
+        BinaryOperator<Integer> opThree = (i, j) -> i + 1;
         boolean result = true;
         int size = this.table.length - 1;
         for (int i = 0, j = size; i != size && result; i++, j--) {
