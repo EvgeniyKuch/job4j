@@ -1,5 +1,7 @@
 package ru.job4j.tictactoe;
 
+import java.util.function.BinaryOperator;
+
 public class Logic3T {
     private final Figure3T[][] table;
 
@@ -8,34 +10,23 @@ public class Logic3T {
     }
 
     /**
-     * Проверяет есть ли в поле выигрышные комбинации для Крестика
-     * путём проверки выигрышных комбинаций в строках, колонках и диагоналях.
+     * Проверяет есть ли в поле выигрышные комбинации для Крестика.
      * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
      */
     public boolean isWinnerX() {
-        return this.checkRows(true)
-                || this.checkColumns(true)
-                || this.checkLeftDiagonal(true)
-                || this.checkRightDiagonal(true);
-
+        return isWinner(true);
     }
 
     /**
      * Проверяет есть ли в поле выигрышные комбинации для Нолика
-     * путём проверки выигрышных комбинаций в строках, колонках и диагоналях.
      * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
      */
     public boolean isWinnerO() {
-        return this.checkRows(false)
-                || this.checkColumns(false)
-                || this.checkLeftDiagonal(false)
-                || this.checkRightDiagonal(false);
+        return isWinner(false);
     }
 
     /**
-     * Проверяет, есть ли ли пустые клетки для новых ходов
-     * путём последовательной проверки каждой клетки на пустоту.
-     * При нахождении первой пустой клетки выходит из цикла.
+     * Проверяет, есть ли ли пустые клетки для новых ходов.
      * @return true - есть пустые клетки, false - нет пустых клеток.
      */
     public boolean hasGap() {
@@ -50,106 +41,134 @@ public class Logic3T {
     }
 
     /**
+     * Проверяет есть ли в поле выигрышные комбинации для
+     * значения soughtValue путём проверки выигрышных комбинаций
+     * в строках, колонках и диагоналях.
+     * @param soughtValue true - для Крестика, false - для Нолика.
+     * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
+     */
+    private boolean isWinner(boolean soughtValue) {
+        return this.checkRows(soughtValue)
+                || this.checkColumns(soughtValue)
+                || this.checkLeftDiagonal(soughtValue)
+                || this.checkRightDiagonal(soughtValue);
+    }
+
+    /**
      * Ищет выигрышную комбинацию в строках для параметра soughtValue.
-     * Проверяет в цикле строки. В каждой строке для текущего и следующего
-     * элемента проверяет, что они не пустые, равны друг дугу и искомому
-     * значению soughtValue. Если условия не выполняются на какой-либо итерации,
-     * переходит к следующей строке. При нахождении первой выгрышной строки
-     * выходит из цикла и возвращает true.
-     * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
-     * @return true - в одной из строк есть выигрышная комбинация,
-     * false - выигрышных комбинаций в строках нет.
+     * @param soughtValue true - для Крестика, false - для Нолика.
+     * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
      */
     private boolean checkRows(boolean soughtValue) {
-        boolean result = false;
-        int size = this.table.length;
-        for (int row = 0; row != size && !result; row++) {
-            result = true;
-            for (int column = 0; column != size - 1 && result; column++) {
-                boolean currentGap = this.table[row][column].hasMarkX() == this.table[row][column].hasMarkO();
-                boolean nextGap = this.table[row][column + 1].hasMarkX() == this.table[row][column + 1].hasMarkO();
-                boolean currentX = this.table[row][column].hasMarkX();
-                boolean nextX = this.table[row][column + 1].hasMarkX();
-                result = !currentGap && !nextGap
-                        && currentX == soughtValue && currentX == nextX;
-            }
-        }
-        return result;
+        return checkRowColumns(soughtValue,
+                (row, column) -> row,
+                (row, column) -> column,
+                (row, column) -> row,
+                (row, column) -> column + 1);
     }
 
     /**
      * Ищет выигрышную комбинацию в столбцах для параметра soughtValue.
-     * Проверяет в цикле столбцы. В каждом столбце для текущего и следующего
-     * элемента проверяет, что они не пустые, равны друг дугу и искомому
-     * значению soughtValue. Если условия не выполняются на какой-либо итерации,
-     * переходит к следующему столбцу. При нахождении первого выгрышного столбца
-     * выходит из цикла и возвращает true.
-     * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
-     * @return true - в одном из столбцов есть выигрышная комбинация,
-     * false - выигрышных комбинаций в столбцах нет.
+     * @param soughtValue true - для Крестика, false - для Нолика.
+     * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
      */
     private boolean checkColumns(boolean soughtValue) {
-        boolean result = false;
-        int size = this.table.length;
-        for (int column = 0; column != size && !result; column++) {
-            result = true;
-            for (int row = 0; row != size - 1 && result; row++) {
-                boolean currentGap = this.table[row][column].hasMarkX() == this.table[row][column].hasMarkO();
-                boolean nextGap = this.table[row + 1][column].hasMarkX() == this.table[row + 1][column].hasMarkO();
-                boolean currentX = this.table[row][column].hasMarkX();
-                boolean nextX = this.table[row + 1][column].hasMarkX();
-                result = !currentGap && !nextGap
-                        && currentX == soughtValue && currentX == nextX;
-            }
-        }
-        return result;
+        return checkRowColumns(soughtValue,
+                (row, column) -> column,
+                (row, column) -> row,
+                (row, column) -> column + 1,
+                (row, column) -> row);
     }
 
     /**
      * Ищет выигрышную комбинацию для параметра soughtValue в диагонали,
-     * спускающейся слева направо. Для текущего и следующего
-     * элемента проверяет, что они не пустые, равны друг дугу и искомому
-     * значению soughtValue. Если условия не выполняются на какой-либо итерации,
-     * выходит из цикла и возвращает false.
+     * спускающейся слева направо.
      * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
      * @return true - в диагонали есть выигрышная комбинация,
      * false - выигрышных комбинаций в диагонали нет.
      */
     private boolean checkLeftDiagonal(boolean soughtValue) {
-        boolean result = true;
-        int size = this.table.length - 1;
-        for (int index = 0; index != size && result; index++) {
-            boolean currentGap = this.table[index][index].hasMarkX() == this.table[index][index].hasMarkO();
-            boolean nextGap = this.table[index + 1][index + 1].hasMarkX() == this.table[index + 1][index + 1].hasMarkO();
-            boolean currentX = this.table[index][index].hasMarkX();
-            boolean nextX = this.table[index + 1][index + 1].hasMarkX();
-            result = !currentGap && !nextGap
-                    && currentX == soughtValue && currentX == nextX;
-        }
-        return result;
+        return checkDiagonal(soughtValue,
+                (i, j) -> i,
+                (i, j) -> i,
+                (i, j) -> i + 1,
+                (i, j) -> i + 1);
     }
 
     /**
      * Ищет выигрышную комбинацию для параметра soughtValue в диагонали,
-     * спускающейся справа налево. Для текущего и следующего
-     * элемента проверяет, что они не пустые, равны друг дугу и искомому
-     * значению soughtValue. Если условия не выполняются на какой-либо итерации,
-     * выходит из цикла и возвращает false.
+     * спускающейся справа налево.
      * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
      * @return true - в диагонали есть выигрышная комбинация,
      * false - выигрышных комбинаций в диагонали нет.
      */
     private boolean checkRightDiagonal(boolean soughtValue) {
+        return checkDiagonal(soughtValue,
+                (i, j) -> i,
+                (i, j) -> j,
+                (i, j) -> i + 1,
+                (i, j) -> j - 1);
+    }
+
+    /**
+     * Ищет выигрышную комбинацию в строках или столбцах для параметра soughtValue.
+     * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
+     * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
+     */
+    private boolean checkRowColumns(boolean soughtValue,
+                                    BinaryOperator<Integer> opOne,
+                                    BinaryOperator<Integer> opTwo,
+                                    BinaryOperator<Integer> opThree,
+                                    BinaryOperator<Integer> opFour) {
+        boolean result = false;
+        int size = this.table.length;
+        for (int row = 0; row != size && !result; row++) {
+            result = true;
+            for (int column = 0; column != size - 1 && result; column++) {
+                result = checkResult(row, column, soughtValue, opOne, opTwo, opThree, opFour);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Ищет выигрышную комбинацию в диагонали для параметра soughtValue.
+     * @param soughtValue искомое значение: true - для Крестика, false - для Нолика.
+     * @return true - есть выигрышные комбинации, false - нет выигрышных комбинаций.
+     */
+    private boolean checkDiagonal(boolean soughtValue,
+                                  BinaryOperator<Integer> opOne,
+                                  BinaryOperator<Integer> opTwo,
+                                  BinaryOperator<Integer> opThree,
+                                  BinaryOperator<Integer> opFour) {
         boolean result = true;
         int size = this.table.length - 1;
         for (int i = 0, j = size; i != size && result; i++, j--) {
-            boolean currentGap = this.table[i][j].hasMarkX() == this.table[i][j].hasMarkO();
-            boolean nextGap = this.table[i + 1][j - 1].hasMarkX() == this.table[i + 1][j - 1].hasMarkO();
-            boolean currentX = this.table[i][j].hasMarkX();
-            boolean nextX = this.table[i + 1][j - 1].hasMarkX();
-            result = !currentGap && !nextGap
-                    && currentX == soughtValue && currentX == nextX;
+            result = checkResult(i, j, soughtValue, opOne, opTwo, opThree, opFour);
         }
         return result;
+    }
+
+    /**
+     * Для текущего и следующего элемента проверяет, что они
+     * не пустые, равны друг дугу и искомому значению soughtValue.
+     * @param i текущий элемент.
+     * @param j следующий элемент.
+     * @param soughtValue искомое значение.
+     * @return true or false.
+     */
+    private boolean checkResult(int i, int j, boolean soughtValue,
+                                 BinaryOperator<Integer> opOne,
+                                 BinaryOperator<Integer> opTwo,
+                                 BinaryOperator<Integer> opThree,
+                                 BinaryOperator<Integer> opFour) {
+        boolean currentGap = this.table[opOne.apply(i, j)][opTwo.apply(i, j)].hasMarkX()
+                == this.table[opOne.apply(i, j)][opTwo.apply(i, j)].hasMarkO();
+        boolean currentX = this.table[opOne.apply(i, j)][opTwo.apply(i, j)].hasMarkX();
+        boolean nextGap = this.table[opThree.apply(i, j)][opFour.apply(i, j)].hasMarkX()
+                == this.table[opThree.apply(i, j)][opFour.apply(i, j)].hasMarkO();
+        boolean nextX = this.table[opThree.apply(i, j)][opFour.apply(i, j)].hasMarkX();
+        return !currentGap && !nextGap
+                && currentX == soughtValue && currentX == nextX;
     }
 }
