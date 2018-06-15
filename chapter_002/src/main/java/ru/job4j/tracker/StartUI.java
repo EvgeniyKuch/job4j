@@ -12,6 +12,11 @@ public class StartUI {
     private final Tracker tracker;
 
     /**
+     * Диапазон ключей.
+     */
+    private int[] range;
+
+    /**
      * Конструтор инициализирующий поля.
      * @param input ввод данных.
      * @param tracker хранилище заявок.
@@ -27,11 +32,11 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
+        this.range = menu.fillRange();
         boolean exit = false;
         do {
             menu.show();
-            int key = Integer.valueOf(this.input.ask("Введите пункт меню : "));
-            exit = menu.select(key);
+            exit = menu.select(this.input.ask("Введите пункт меню : ", this.range));
         } while (!exit);
     }
 
@@ -40,6 +45,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

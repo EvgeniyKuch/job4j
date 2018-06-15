@@ -21,6 +21,14 @@ public class MenuTracker {
         this.actions[5] = this.new FindItemByName();
     }
 
+    public int[] fillRange() {
+        int[] result = new int[this.actions.length];
+        for (int i = 0; i < this.actions.length; i++) {
+            result[i] = i;
+        }
+        return result;
+    }
+
     public void show() {
         System.out.println("");
         System.out.println("Меню.");
@@ -36,9 +44,9 @@ public class MenuTracker {
 
     public boolean select(int key) {
         boolean exit = false;
-        if (key >= 0 && key < this.actions.length && this.actions[key] != null) {
+        if (key != this.actions.length) {
             this.actions[key].execute(this.input, this.tracker);
-        } else if (key == this.actions.length) {
+        } else {
             exit = true;
         }
         return exit;
