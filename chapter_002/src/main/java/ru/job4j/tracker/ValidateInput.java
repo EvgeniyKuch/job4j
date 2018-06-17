@@ -19,6 +19,16 @@ public class ValidateInput implements Input {
         do {
             try {
                 key = input.ask(question, range);
+                boolean exist = false;
+                for (int value : range) {
+                    if (key == value || key == range.length) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
+                }
                 invalid = false;
             } catch (MenuOutException ex) {
                 System.out.println("Необходимо выбрать значение из диапазона меню");
