@@ -1,13 +1,24 @@
 package ru.job4j.tracker;
 
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+    private Input input;
+
+    public ValidateInput(Input input) {
+        this.input = input;
+    }
+
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
     @Override
     public int ask(String question, int[] range) {
         boolean invalid = true;
         int key = -1;
         do {
             try {
-                key = super.ask(question, range);
+                key = input.ask(question, range);
                 invalid = false;
             } catch (MenuOutException ex) {
                 System.out.println("Необходимо выбрать значение из диапазона меню");
