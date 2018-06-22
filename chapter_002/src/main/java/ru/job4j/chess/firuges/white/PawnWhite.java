@@ -1,30 +1,27 @@
 package ru.job4j.chess.firuges.white;
 
+import ru.job4j.chess.ImposibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.black.PawnBlack;
 
 /**
- * //TODO add comments.
- *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * Белая пешка.
+ * @author <a href="mailto:evgeniy.kuchumov@gmail.com.com">Кучумов Евгений</a>
  * @version $Id$
  * @since 0.1
  */
-public class PawnWhite implements Figure {
-    private final Cell position;
+public class PawnWhite extends PawnBlack implements Figure {
 
     public PawnWhite(final Cell position) {
-        this.position = position;
+        super(position);
     }
 
     @Override
-    public Cell position() {
-        return this.position;
-    }
-
-    @Override
-    public Cell[] way(Cell source, Cell dest) {
-        return new Cell[] {dest};
+    public Cell[] way(Cell source, Cell dest) throws ImposibleMoveException {
+        return wayPossible(
+                (s, d) -> (d.y == s.y + 1 && s.x == d.x),
+                source, dest);
     }
 
     @Override

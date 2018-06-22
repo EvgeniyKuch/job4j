@@ -2,28 +2,18 @@ package ru.job4j.chess.firuges.white;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.black.QeenBlack;
 
 /**
- *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * Белый ферзь.
+ * @author <a href="mailto:evgeniy.kuchumov@gmail.com.com">Кучумов Евгений</a>
  * @version $Id$
  * @since 0.1
  */
-public class QeenWhite implements Figure {
-    private final Cell position;
+public class QeenWhite extends QeenBlack implements Figure {
 
     public QeenWhite(final Cell position) {
-        this.position = position;
-    }
-
-    @Override
-    public Cell position() {
-        return this.position;
-    }
-
-    @Override
-    public Cell[] way(Cell source, Cell dest) {
-        return new Cell[] {dest};
+        super(position);
     }
 
     @Override

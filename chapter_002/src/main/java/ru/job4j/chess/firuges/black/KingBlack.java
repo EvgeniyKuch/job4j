@@ -4,8 +4,8 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 /**
- *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * Чёрный король.
+ * @author <a href="mailto:evgeniy.kuchumov@gmail.com.com">Кучумов Евгений</a>
  * @version $Id$
  * @since 0.1
  */
@@ -23,7 +23,11 @@ public class KingBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        return new Cell[] {dest};
+        return wayPossible(
+                (s, d) -> (
+                        Math.abs(d.y - s.y) <= 1 && Math.abs(d.x - s.x) <= 1
+                ),
+                source, dest);
     }
 
     @Override

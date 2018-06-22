@@ -4,9 +4,8 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 /**
- * //TODO add comments.
- *
- * @author Petr Arsentev (parsentev@yandex.ru)
+ * Логика проверки хода фигуры.
+ * @author <a href="mailto:evgeniy.kuchumov@gmail.com.com">Кучумов Евгений</a>
  * @version $Id$
  * @since 0.1
  */
@@ -18,6 +17,15 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
+    /**
+     * Проверяет, что ячейка не пустая, что фигурой в ней
+     * можно так ходить, что на пути нет других фигур, и,
+     * если можно, копирует фигуру в ячейку назначения.
+     * @param source исходная ячейка.
+     * @param dest ячейка назначения.
+     * @return false - ячейка пустая, или так нельзя ходить,
+     * или путь не свободен.
+     */
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
         try {
@@ -41,6 +49,13 @@ public class Logic {
         this.index = 0;
     }
 
+    /**
+     * Проверяет, что ячейка не пустая.
+     * @param cell ячейка.
+     * @return индекс фигуры в массиве фигур,
+     * если ячека не пустая.
+     * @throws FigureNotFoundException если ячека пустая.
+     */
     private int findBy(Cell cell) throws FigureNotFoundException {
         int rst = -1;
         for (int index = 0; index != this.figures.length; index++) {
@@ -55,6 +70,11 @@ public class Logic {
         return rst;
     }
 
+    /**
+     * Проверяет, что на пути нет других фигур.
+     * @param steps массив ячеек, которые надо пройти фигуре.
+     * @throws OccupiedWayException путь не свободен.
+     */
     private void freeWay(Cell[] steps) throws OccupiedWayException {
         for (int i = 0; i != steps.length; i++) {
             try {
