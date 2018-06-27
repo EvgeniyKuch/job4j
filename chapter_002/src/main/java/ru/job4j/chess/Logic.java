@@ -75,13 +75,15 @@ public class Logic {
      * @param steps массив ячеек, которые надо пройти фигуре.
      * @throws OccupiedWayException путь не свободен.
      */
+
     private void freeWay(Cell[] steps) throws OccupiedWayException {
-        for (int i = 0; i != steps.length; i++) {
+        int i = 0;
+        while (i != steps.length) {
             try {
                 findBy(steps[i]);
                 throw new OccupiedWayException();
             } catch (FigureNotFoundException e) {
-                continue;
+                i++;
             }
         }
     }

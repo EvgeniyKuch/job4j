@@ -77,23 +77,22 @@ public interface Figure {
      * если так ходить нельзя.
      */
     default Cell[] wayPossible(BiPredicate<Cell, Cell> predicate,
-                              Cell source, Cell dest)
+                               Cell source, Cell dest)
             throws ImposibleMoveException {
-        Cell[] steps = null;
-        if (predicate.test(source, dest)) {
-            int wayX = Math.abs(dest.x - source.x);
-            int wayY = Math.abs(dest.y - source.y);
-            int deltaX = wayX == 0 ? 0 : (dest.x - source.x) / wayX;
-            int deltaY = wayY == 0 ? 0 : (dest.y - source.y) / wayY;
-            int length = wayX > wayY ? wayX : wayY;
-            steps = new Cell[length];
-            for (int i = 0, x = source.x, y = source.y; i != length; i++) {
-                x += deltaX;
-                y += deltaY;
-                steps[i] = posCell(x, y);
-            }
-        } else {
+        if (!predicate.test(source, dest)) {
             throw new ImposibleMoveException();
+        }
+        Cell[] steps = null;
+        int wayX = Math.abs(dest.x - source.x);
+        int wayY = Math.abs(dest.y - source.y);
+        int deltaX = wayX == 0 ? 0 : (dest.x - source.x) / wayX;
+        int deltaY = wayY == 0 ? 0 : (dest.y - source.y) / wayY;
+        int length = wayX > wayY ? wayX : wayY;
+        steps = new Cell[length];
+        for (int i = 0, x = source.x, y = source.y; i != length; i++) {
+            x += deltaX;
+            y += deltaY;
+            steps[i] = posCell(x, y);
         }
         return steps;
     }
