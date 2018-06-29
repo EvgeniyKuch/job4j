@@ -8,7 +8,7 @@ public class ConvertList2Array {
         int[][] array = new int[rows][cells];
         int count = 0;
         for (Integer item : list) {
-            array[count / rows][count % rows] = item;
+            array[count / cells][count % cells] = item;
             count++;
         }
         return array;

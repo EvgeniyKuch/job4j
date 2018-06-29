@@ -22,4 +22,18 @@ public class ConvertList2ArrayTest {
         };
         assertThat(result, is(expect));
     }
+
+    @Test
+    public void when5ElementsThen6() {
+        ConvertList2Array list = new ConvertList2Array();
+        int[][] result = list.toArray(
+                Arrays.asList(1, 2, 3, 4, 5),
+                2
+        );
+        int[][] expect = {
+                {1, 2, 3},
+                {4, 5, 0}
+        };
+        assertThat(result, is(expect));
+    }
 }
