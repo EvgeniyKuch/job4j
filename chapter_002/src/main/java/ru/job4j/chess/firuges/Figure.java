@@ -82,13 +82,12 @@ public interface Figure {
         if (!predicate.test(source, dest)) {
             throw new ImposibleMoveException();
         }
-        Cell[] steps = null;
         int wayX = Math.abs(dest.x - source.x);
         int wayY = Math.abs(dest.y - source.y);
         int deltaX = wayX == 0 ? 0 : (dest.x - source.x) / wayX;
         int deltaY = wayY == 0 ? 0 : (dest.y - source.y) / wayY;
         int length = wayX > wayY ? wayX : wayY;
-        steps = new Cell[length];
+        Cell[] steps = new Cell[length];
         for (int i = 0, x = source.x, y = source.y; i != length; i++) {
             x += deltaX;
             y += deltaY;
