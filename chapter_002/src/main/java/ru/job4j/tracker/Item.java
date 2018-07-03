@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Заявка.
@@ -9,7 +10,7 @@ public class Item {
     private String name;
     private String desc;
     private long created;
-    private String[] comments;
+    private List<String> comments;
     private String id;
 
     public Item(String name, String desc) {
@@ -22,7 +23,7 @@ public class Item {
         this.id = id;
     }
 
-    public void setCommetns(String[] comments) {
+    public void setCommetns(List<String> comments) {
         this.comments = comments;
     }
 
@@ -42,7 +43,7 @@ public class Item {
         return this.created;
     }
 
-    public String[] getComments() {
+    public List<String> getComments() {
         return this.comments;
     }
 }

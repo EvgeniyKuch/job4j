@@ -1,11 +1,13 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[6];
+    private List<UserAction> actions = new ArrayList<>();
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -13,39 +15,35 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.actions[0] = this.new AddItem(0);
-        this.actions[1] = new ShowAllItem(1); //внешний класс, расположенный в одном файле
-        this.actions[2] = new MenuTracker.ReplaceItem(2); //статический внутренний класс
-        this.actions[3] = this.new DeleteItem(3);
-        this.actions[4] = this.new FindItemById(4);
-        this.actions[5] = this.new FindItemByName(5);
+        this.actions.add(this.new AddItem(0));
+        this.actions.add(new ShowAllItem(1)); //внешний класс, расположенный в одном файле
+        this.actions.add(new MenuTracker.ReplaceItem(2)); //статический внутренний класс
+        this.actions.add(this.new DeleteItem(3));
+        this.actions.add(this.new FindItemById(4));
+        this.actions.add(this.new FindItemByName(5));
     }
 
-    public int[] fillRange() {
-        int[] result = new int[this.actions.length];
-        for (int i = 0; i < this.actions.length; i++) {
-            result[i] = i;
+    public List<Integer> fillRange() {
+        List<Integer> range = new ArrayList<>();
+        for (UserAction action : this.actions) {
+            range.add(action.key());
         }
-        return result;
+        return range;
     }
 
     public void show() {
         System.out.println("");
         System.out.println("Меню.");
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
-        }
-        String str = String.format("%s. %s", this.actions.length, "Выйти из программы");
+        this.actions.forEach(userAction -> System.out.println(userAction.info()));
+        String str = String.format("%s. %s", this.actions.size(), "Выйти из программы");
         System.out.println(str);
         System.out.println("");
     }
 
     public boolean select(int key) {
         boolean exit = false;
-        if (key != this.actions.length) {
-            this.actions[key].execute(this.input, this.tracker);
+        if (key != this.actions.size()) {
+            this.actions.get(key).execute(this.input, this.tracker);
         } else {
             exit = true;
         }
@@ -158,8 +156,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Поиск заявки по имени --------------");
             String name = input.ask("Введите имя искомой заявки: ");
-            Item[] listItem = tracker.findByName(name);
-            if (listItem.length != 0) {
+            List<Item> listItem = tracker.findByName(name);
+            if (listItem.size() != 0) {
                 System.out.println("---------- Найденные заявки начало --------------");
                 StringBuilder list = new StringBuilder();
                 for (Item item : listItem) {
@@ -187,8 +185,8 @@ class ShowAllItem extends BaseAction {
     @Override
     public void execute(Input input, Tracker tracker) {
         System.out.println("------------ Список заявок начало --------------");
-        Item[] allItem = tracker.findAll();
-        if (allItem.length == 0) {
+        List<Item> allItem = tracker.findAll();
+        if (allItem.size() == 0) {
             System.out.println("                 Список пуст                    ");
         }
         StringBuilder list = new StringBuilder();

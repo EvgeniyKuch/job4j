@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 public class StartUI {
     /**
      * Получение данных от пользователя.
@@ -14,7 +16,7 @@ public class StartUI {
     /**
      * Диапазон ключей.
      */
-    private int[] range;
+    private List<Integer> range;
 
     /**
      * Конструтор инициализирующий поля.

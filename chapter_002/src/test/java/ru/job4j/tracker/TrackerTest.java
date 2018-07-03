@@ -2,6 +2,9 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -20,7 +23,7 @@ public class TrackerTest {
         Item itemTwo = new Item("test2", "testDescription");
         tracker.add(itemOne);
         tracker.add(itemTwo);
-        Item[] expect = {itemOne, itemTwo};
+        List<Item> expect = Arrays.asList(itemOne, itemTwo);
         assertThat(tracker.findAll(), is(expect));
     }
 
@@ -39,7 +42,7 @@ public class TrackerTest {
 
     /**
      * Тестирование удаления заявок (public void delete(String id))
-     * и получения списка всех заявок без null элементов (public Item[] findAll()).
+     * и получения списка всех заявок без null элементов (public List<Item> findAll()).
      */
     @Test
     public void whenDeleteAverageItemThenTwoItems() {
@@ -51,7 +54,7 @@ public class TrackerTest {
         tracker.add(itemTwo);
         tracker.add(itemThree);
         tracker.delete(itemTwo.getId());
-        Item[] expect = {itemOne, itemThree};
+        List<Item> expect = Arrays.asList(itemOne, itemThree);
         assertThat(tracker.findAll(), is(expect));
     }
 
@@ -71,8 +74,8 @@ public class TrackerTest {
         tracker.add(itemThree);
         tracker.add(itemFour);
         tracker.add(itemFive);
-        Item[] result = tracker.findByName("test1");
-        Item[] expect = {itemOne, itemThree, itemFive};
+        List<Item> result = tracker.findByName("test1");
+        List<Item> expect = Arrays.asList(itemOne, itemThree, itemFive);
         assertThat(result, is(expect));
     }
 
