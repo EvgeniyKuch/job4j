@@ -14,7 +14,7 @@ public class UserConvertTest {
 
     @Test
     public void whenUserConvertToMap() {
-        List<User> list = list = Arrays.asList(
+        List<User> list = Arrays.asList(
                 new User(1546, "Ivan", "Ivanovo"),
                 new User(7987, "Vladimir", "Moscow"),
                 new User(1321, "Nikolay", "St. Petersburg")
