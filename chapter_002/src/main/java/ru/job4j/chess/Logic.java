@@ -57,13 +57,7 @@ public class Logic {
      * @throws FigureNotFoundException если ячека пустая.
      */
     private int findBy(Cell cell) throws FigureNotFoundException {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
-            }
-        }
+        int rst = findFigure(cell);
         if (rst == -1) {
             throw new FigureNotFoundException();
         }
@@ -79,14 +73,26 @@ public class Logic {
      */
 
     private void freeWay(Cell[] steps) throws OccupiedWayException {
-        int i = 0;
-        while (i != steps.length) {
-            try {
-                findBy(steps[i]);
+        for (Cell step : steps) {
+            if (findFigure(step) != -1) {
                 throw new OccupiedWayException();
-            } catch (FigureNotFoundException e) {
-                i++;
             }
         }
+    }
+
+    /**
+     * Возвращает индекс фигуры в ячейке.
+     * @param cell ячейка
+     * @return индекс фигуры или -1, если ячека пуста.
+     */
+    private int findFigure(Cell cell) {
+        int rst = -1;
+        for (int index = 0; index != this.figures.length; index++) {
+            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
+                rst = index;
+                break;
+            }
+        }
+        return rst;
     }
 }
