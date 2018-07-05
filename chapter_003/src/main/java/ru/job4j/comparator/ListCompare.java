@@ -16,7 +16,7 @@ public class ListCompare implements Comparator<String> {
         int length = leftStr.size() < rightStr.size() ? leftStr.size() : rightStr.size();
         int result = 0;
         for (int i = 0; i < length && result == 0; i++) {
-            result = leftStr.get(i) - rightStr.get(i);
+            result = Character.compare(leftStr.get(i), rightStr.get(i));
         }
         result = result == 0 ? leftStr.size() - rightStr.size() : result;
         return result;
