@@ -34,7 +34,8 @@ public class ValidateInputTest {
         assertThat(
                 this.mem.toString(),
                 is(
-                        String.format("Необходимо ввести корректное значение\r\n")
+                        String.format("Необходимо ввести корректное значение%s",
+                                System.lineSeparator())
                 )
         );
     }
@@ -48,7 +49,8 @@ public class ValidateInputTest {
         assertThat(
                 this.mem.toString(),
                 is(
-                        String.format("Необходимо выбрать значение из диапазона меню\r\n")
+                        String.format("Необходимо выбрать значение из диапазона меню%s",
+                                System.lineSeparator())
                 )
         );
     }
