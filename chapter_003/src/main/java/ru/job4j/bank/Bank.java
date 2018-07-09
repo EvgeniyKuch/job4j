@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Bank {
     private Map<User, List<Account>> map = new HashMap<>();
@@ -57,20 +56,20 @@ public class Bank {
     }
 
     private User passportUser(String passport) {
-        List<User> result = this.map.keySet().stream()
+        return this.map.keySet().stream()
                 .filter(user -> user.getPassport().equals(passport))
-                .collect(Collectors.toList());
-        return result.size() != 0 ? result.get(0) : new User("", "");
+                .findFirst().orElse(new User("", ""));
     }
 
     private Account foundAccount(String passport, String requisite) {
+        Account result = null;
         List<Account> accounts = this.getUserAccounts(passport);
         if (accounts != null) {
-            accounts = accounts.stream()
+            result = accounts.stream()
                     .filter(account -> account.getRequisites().equals(requisite))
-                    .collect(Collectors.toList());
+                    .findFirst().orElse(null);
         }
-        return accounts != null && accounts.size() != 0 ? accounts.get(0) : null;
+        return result;
     }
 
     private void changeValue(String passport, String requisite, double amount) {
