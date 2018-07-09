@@ -62,14 +62,9 @@ public class Bank {
     }
 
     private Account foundAccount(String passport, String requisite) {
-        Account result = null;
-        List<Account> accounts = this.getUserAccounts(passport);
-        if (accounts != null) {
-            result = accounts.stream()
-                    .filter(account -> account.getRequisites().equals(requisite))
-                    .findFirst().orElse(null);
-        }
-        return result;
+        return this.map.getOrDefault(passportUser(passport), new ArrayList<>()).stream()
+                .filter(account -> account.getRequisites().equals(requisite))
+                .findFirst().orElse(null);
     }
 
     private void changeValue(String passport, String requisite, double amount) {
