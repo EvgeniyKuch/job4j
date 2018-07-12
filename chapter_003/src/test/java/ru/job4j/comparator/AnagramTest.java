@@ -30,4 +30,12 @@ public class AnagramTest {
         Anagram anagram = new Anagram();
         assertThat(anagram.check(strOne, strTwo), is(false));
     }
+
+    @Test
+    public void whenNotAnagramThenFalseButSumSame() {
+        String strOne = "fghij";
+        String strTwo = "eknee";
+        Anagram anagram = new Anagram();
+        assertThat(anagram.check(strOne, strTwo), is(false));
+    }
 }
