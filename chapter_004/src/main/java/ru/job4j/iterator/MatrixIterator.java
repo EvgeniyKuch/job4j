@@ -8,6 +8,8 @@ public class MatrixIterator implements Iterator<Integer> {
     private int[][] array;
     private int length;
     private int position = 0;
+    private int row = 0;
+    private int column = 0;
 
     public MatrixIterator(int[][] array) {
         this.array = array;
@@ -24,9 +26,14 @@ public class MatrixIterator implements Iterator<Integer> {
         if (position >= length) {
             throw new NoSuchElementException();
         }
-        int[] index = indices(position);
+        int result = this.array[row][column];
         position++;
-        return this.array[index[0]][index[1]];
+        column++;
+        if (column == this.array[row].length) {
+            column = 0;
+            row++;
+        }
+        return result;
     }
 
     private int size(int[][] array) {
@@ -35,21 +42,5 @@ public class MatrixIterator implements Iterator<Integer> {
             result += a.length;
         }
         return result;
-    }
-
-    /**
-     * Индексы элемента на position.
-     * @param position позиция элемента.
-     * @return [0] - номер строки, [1] - номер столбца.
-     */
-    private int[] indices(int position) {
-        int i = 0;
-        while (position >= 0) {
-            position -= this.array[i].length;
-            i++;
-        }
-        i--;
-        int j = position + array[i].length;
-        return new int[]{i, j};
     }
 }
