@@ -7,47 +7,29 @@ public class Converter {
     public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
 
-            private Iterator<Integer> currentIterator;
-            private Integer currentInteger;
-            private boolean initial = false;
+            private Iterator<Integer> nextIterator;
+            private Integer nextInteger;
 
             @Override
             public boolean hasNext() {
-                initial();
-                return currentInteger != null;
+                while (it.hasNext() && nextInteger == null) {
+                    nextIterator = it.next();
+                    nextInteger = nextIterator.hasNext()
+                            ? nextIterator.next() : null;
+                }
+                return nextInteger != null;
             }
 
             @Override
             public Integer next() {
-                initial();
-                if (currentInteger == null) {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                int result = currentInteger;
-                if (currentIterator.hasNext()) {
-                    currentInteger = currentIterator.next();
-                } else {
-                    currentInteger = null;
-                    searchNext();
-                }
+                int result = nextInteger;
+                nextInteger = nextIterator.hasNext()
+                        ? nextIterator.next() : null;
+                hasNext();
                 return result;
-            }
-
-            private void searchNext() {
-                while (it.hasNext()) {
-                    currentIterator = it.next();
-                    if (currentIterator.hasNext()) {
-                        currentInteger = currentIterator.next();
-                        break;
-                    }
-                }
-            }
-
-            private void initial() {
-                if (!initial) {
-                    searchNext();
-                    initial = true;
-                }
             }
         };
     }
