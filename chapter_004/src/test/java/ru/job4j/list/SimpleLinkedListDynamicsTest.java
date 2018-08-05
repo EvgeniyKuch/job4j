@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.*;
 
 public class SimpleLinkedListDynamicsTest {
@@ -66,5 +67,29 @@ public class SimpleLinkedListDynamicsTest {
         Iterator<Integer> it = list.iterator();
         list.add(5);
         it.next();
+    }
+
+    @Test
+    public void whenDeleteFirstElementThenLastThreeElementsRemain() {
+        assertThat(list.deleteFirst(), is(1));
+        assertThat(list.get(0), is(2));
+        assertThat(list.get(1), is(3));
+        assertThat(list.get(2), is(4));
+        assertThat(
+                new SimpleLinkedListDynamics<Integer>().deleteFirst(),
+                is(nullValue())
+        );
+    }
+
+    @Test
+    public void whenDeleteLastElementThenFirstThreeElementsRemain() {
+        assertThat(list.deleteLast(), is(4));
+        assertThat(list.get(0), is(1));
+        assertThat(list.get(1), is(2));
+        assertThat(list.get(2), is(3));
+        assertThat(
+                new SimpleLinkedListDynamics<Integer>().deleteLast(),
+                is(nullValue())
+        );
     }
 }

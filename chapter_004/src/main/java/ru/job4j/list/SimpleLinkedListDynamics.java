@@ -51,6 +51,36 @@ public class SimpleLinkedListDynamics<E> implements Iterable<E> {
     }
 
     /**
+     * Удаляет первый элемент и возвращает его.
+     * @return удалаяемый элемент.
+     */
+    public E deleteFirst() {
+        E result = null;
+        if (first != null) {
+            result = first.date;
+            first = first.next;
+            size--;
+            modCount++;
+        }
+        return result;
+    }
+
+    /**
+     * Удааляет последний элемент и возвращает его.
+      * @return удаляемый элемент.
+     */
+    public E deleteLast() {
+        E result = null;
+        if (last != null) {
+            result = last.date;
+            last = last.prev;
+            size--;
+            modCount++;
+        }
+        return result;
+    }
+
+    /**
      * Обход с начала списка.
      */
     private E getWithBegin(int index) {
