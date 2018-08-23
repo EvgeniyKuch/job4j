@@ -43,7 +43,7 @@ public class SimpleHashMap<K, V> {
         boolean result = false;
         int hash = hash(key);
         int index = hash % table.length;
-        if (table[index] == null || table[index].hash == hash && table[index].key.equals(key)) {
+        if (table[index] == null) {
             table[index] = new Pair(hash, key, value);
             // если расширяем и перехешируем таблицу,
             // то не меняем size и modCount
@@ -51,6 +51,10 @@ public class SimpleHashMap<K, V> {
                 size++;
                 modCount++;
             }
+            result = true;
+        } else if (table[index].hash == hash && table[index].key.equals(key)) {
+            table[index] = new Pair(hash, key, value);
+            modCount++;
             result = true;
         }
         return result;
