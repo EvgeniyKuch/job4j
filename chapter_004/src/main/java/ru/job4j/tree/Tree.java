@@ -5,7 +5,8 @@ import java.util.*;
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     private final Node<E> root;
-    private int modCount;
+    private int modCount = 0;
+    private boolean isBinary = false;
 
     public Tree(E value) {
         this.root = new Node<>(value);
@@ -41,6 +42,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
+    public boolean isBinary() {
+        Iterator<E> itr = this.iterator();
+        while (itr.hasNext()) {
+            itr.next();
+        }
+        return isBinary;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Itr();
@@ -72,6 +81,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
             Node<E> result = queue.poll();
             if (!result.leaves().isEmpty()) {
+                isBinary = result.leaves().size() <= 2;
                 for (Node<E> child : result.leaves()) {
                     queue.offer(child);
                 }
