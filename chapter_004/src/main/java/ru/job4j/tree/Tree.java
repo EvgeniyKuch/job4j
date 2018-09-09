@@ -6,7 +6,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     private final Node<E> root;
     private int modCount = 0;
-    private boolean isBinary = false;
 
     public Tree(E value) {
         this.root = new Node<>(value);
@@ -43,11 +42,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     public boolean isBinary() {
-        Iterator<E> itr = this.iterator();
-        while (itr.hasNext()) {
-            itr.next();
-        }
-        return isBinary;
+        return new Itr().bynar();
     }
 
     @Override
@@ -59,6 +54,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
         private Queue<Node<E>> queue;
         private int expectedModCount;
+        private boolean isBinary = true;
 
         public Itr() {
             this.queue = new LinkedList<>();
@@ -81,12 +77,19 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
             Node<E> result = queue.poll();
             if (!result.leaves().isEmpty()) {
-                isBinary = result.leaves().size() <= 2;
+                this.isBinary = result.leaves().size() <= 2;
                 for (Node<E> child : result.leaves()) {
                     queue.offer(child);
                 }
             }
             return result.getValue();
+        }
+
+        public boolean bynar() {
+            while (hasNext() && isBinary) { // пока есть элементы и детей меньше 3, тем самым избавляемся от полного перебора дерева
+                next();
+            }
+            return isBinary;
         }
     }
 }
