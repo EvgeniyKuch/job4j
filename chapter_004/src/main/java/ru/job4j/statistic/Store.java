@@ -1,20 +1,22 @@
 package ru.job4j.statistic;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Store {
 
     public Info diff(List<User> previoues, List<User> current) {
-        Collections.sort(current, Comparator.comparingInt(us -> us.id));
+        Map<Integer, User> currentMap = new HashMap<>();
+        for (User user : current) {
+            currentMap.put(user.id, user);
+        }
         int deleted = 0;
         int changed = 0;
         for (User user : previoues) {
-            int index = Collections.binarySearch(current, user, Comparator.comparingInt(us -> us.id));
-            if (index < 0) {
+            if (!currentMap.containsKey(user.id)) {
                 deleted++;
-            } else if (!user.equals(current.get(index))) {
+            } else if (!currentMap.get(user.id).equals(user)) {
                 changed++;
             }
         }
