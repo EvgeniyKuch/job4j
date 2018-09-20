@@ -59,6 +59,11 @@ public class SimpleLinkedListDynamics<E> implements Iterable<E> {
         if (first != null) {
             result = first.date;
             first = first.next;
+            if (first == null) {
+                last = null;
+            } else {
+                first.prev = null;
+            }
             size--;
             modCount++;
         }
@@ -74,6 +79,11 @@ public class SimpleLinkedListDynamics<E> implements Iterable<E> {
         if (last != null) {
             result = last.date;
             last = last.prev;
+            if (last == null) {
+                first = null;
+            } else {
+                last.next = null;
+            }
             size--;
             modCount++;
         }
