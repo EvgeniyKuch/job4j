@@ -15,7 +15,7 @@ public class RectangleMove implements Runnable {
         double y = this.rect.getY();
         double deltaX = Math.random() * 20 - 10;
         double deltaY = Math.random() * 20 - 10;
-        while (true) {
+        while (!Thread.interrupted()) {
             x += deltaX;
             y += deltaY;
             if (x > 290.0 || x < 0.0) {
@@ -27,9 +27,9 @@ public class RectangleMove implements Runnable {
             this.rect.setX(x);
             this.rect.setY(y);
             try {
-                Thread.sleep(50);
+                Thread.sleep(150);
             } catch (InterruptedException e) {
-                return;
+                Thread.currentThread().interrupt();
             }
         }
     }
