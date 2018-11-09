@@ -4,7 +4,7 @@ public class ParallelSearch {
 
     public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
-        final Thread consumer = new Thread (
+        final Thread consumer = new Thread(
                 () -> {
                     while (!Thread.currentThread().isInterrupted()) {
                         try {
