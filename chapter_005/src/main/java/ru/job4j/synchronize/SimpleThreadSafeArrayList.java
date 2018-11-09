@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class SimpleThreadSafeArrayList<E> implements Iterable<E> {
 
     @GuardedBy("this")
-    final SimpleArrayListDynamics<E> array;
+    private final SimpleArrayListDynamics<E> array;
 
     public SimpleThreadSafeArrayList() {
         this.array = new SimpleArrayListDynamics<>();
