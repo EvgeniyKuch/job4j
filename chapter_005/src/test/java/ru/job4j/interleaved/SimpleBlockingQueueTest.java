@@ -18,7 +18,11 @@ public class SimpleBlockingQueueTest {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                queue.offer(i);
+                try {
+                    queue.offer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -34,7 +38,12 @@ public class SimpleBlockingQueueTest {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                int result = queue.poll();
+                int result = 0;
+                try {
+                    result = queue.poll();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 //такой тест проходит
                 assertThat(result, is(i));
                 //а такой тест падает и виснет

@@ -17,32 +17,20 @@ public class SimpleBlockingQueue<T> {
         this.maxSize = maxSize;
     }
 
-    public synchronized void offer(T value) {
-        while (!Thread.currentThread().isInterrupted() && size >= maxSize) {
-            try {
-                System.out.println("Queue is full");
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+    public synchronized void offer(T value) throws InterruptedException {
+        while (size >= maxSize) {
+            wait();
         }
-        System.out.println("Put: " + value);
         queue.push(value);
         size++;
         notifyAll();
     }
 
-    public synchronized T poll() {
-        while (!Thread.currentThread().isInterrupted() && size == 0) {
-            try {
-                System.out.println("Queue is empty");
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+    public synchronized T poll() throws InterruptedException {
+        while (size == 0) {
+            wait();
         }
         T result = queue.poll();
-        System.out.println("Get: " + result);
         size--;
         notifyAll();
         return result;
