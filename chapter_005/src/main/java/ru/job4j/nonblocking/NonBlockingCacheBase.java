@@ -20,6 +20,11 @@ public class NonBlockingCacheBase {
                 (k, oldModel) -> {
                     int old = oldModel.getVersion().get();
                     newModel.getVersion().set(old + 1);
+                    try {
+                        Thread.sleep(75);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     if (!oldModel.getVersion().compareAndSet(old, old + 1)) {
                         throw new OptimisticException();
                     }
