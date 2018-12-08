@@ -13,6 +13,10 @@ public class SimpleBlockingQueue<T> {
     private int size;
     private final int maxSize;
 
+    public SimpleBlockingQueue() {
+        this.maxSize = Integer.MAX_VALUE;
+    }
+
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
     }
