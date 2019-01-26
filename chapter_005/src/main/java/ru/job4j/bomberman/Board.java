@@ -3,6 +3,15 @@ package ru.job4j.bomberman;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Класс игрового поля.
+ * Сложность поля задаётся размерами в
+ * конструкторе, а также методом
+ * Board.setBlock для установки полей,
+ * куда ходить нельзя. Количесвто монстров
+ * задаётся количесвтом одновременно запущенных
+ * потоков чудовищ.
+ */
 public class Board {
 
     private final ReentrantLock[][] board;
@@ -43,11 +52,5 @@ public class Board {
             result = true;
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        Board board = new Board(3, 3);
-        board.setBlock(1, 1);
-        new Thread(new Monster(board, 0, 0)).start();
     }
 }
