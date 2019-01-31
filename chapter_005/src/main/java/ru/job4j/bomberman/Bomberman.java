@@ -34,8 +34,12 @@ public class Bomberman {
         );
         boolean result = possibility
                 && board.move(x, y, x + deltaX, y + deltaY);
-        x += deltaX;
-        y += deltaY;
+        x = result ? x + deltaX : x;
+        y = result ? y + deltaY : y;
         return result;
+    }
+
+    public boolean hasQueuedThreads() {
+        return board.get(x, y).hasQueuedThreads();
     }
 }

@@ -15,11 +15,11 @@ public class Monster implements Runnable {
         this.board = board;
         this.x = startX;
         this.y = startY;
-        board.get(x, y).lock();
     }
 
     @Override
     public void run() {
+        board.get(x, y).lock();
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(1000);
