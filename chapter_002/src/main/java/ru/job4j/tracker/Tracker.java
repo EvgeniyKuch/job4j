@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  * @version $Id$
  * @since 0.1
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Список для хранение заявок.
      */

@@ -18,7 +18,7 @@ public class TrackerTest {
      */
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item itemOne = new Item("test1", "testDescription");
         Item itemTwo = new Item("test2", "testDescription");
         tracker.add(itemOne);

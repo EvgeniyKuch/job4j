@@ -10,6 +10,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>chapter_006</artifactId>
+    <packaging>jar</packaging>
+    <dependencies>
+        <!-- https://search.maven.org/search?q=g:org.postgresql%20AND%20a:postgresql&core=gav -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>chapter_002</artifactId>
+            <version>2.0</version>
+        </dependency>
 
+    </dependencies>
 
 </project>

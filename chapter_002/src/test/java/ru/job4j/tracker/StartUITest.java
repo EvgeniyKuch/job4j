@@ -48,7 +48,7 @@ public class StartUITest {
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Input input = new StubInput(Arrays.asList("0", "test name", "desc", "6"));
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().get(0).getName(), is("test name"));
@@ -59,7 +59,7 @@ public class StartUITest {
      */
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("1", "1"));
         Input input = new StubInput(Arrays.asList("2", item.getId(), "test name", "desc", "6"));
         new StartUI(input, tracker).init();
@@ -71,7 +71,7 @@ public class StartUITest {
      */
     @Test
     public void whenDeleteThenTrackerDoesNotHaveItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("1", "1"));
         Item itemTwo = tracker.add(new Item("2", "2"));
         Input input = new StubInput(Arrays.asList("3", itemOne.getId(), "6"));
@@ -85,7 +85,7 @@ public class StartUITest {
      */
     @Test
     public void whenShowAllItems() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "test desc"));
         Input input = new StubInput(Arrays.asList("1", "6"));
         new StartUI(input, tracker).init();
@@ -114,7 +114,7 @@ public class StartUITest {
      */
     @Test
     public void whenFindById() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "test desc"));
         Input input = new StubInput(Arrays.asList("4", item.getId(), "6"));
         new StartUI(input, tracker).init();
@@ -144,7 +144,7 @@ public class StartUITest {
      */
     @Test
     public void whenFindByName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "test desc"));
         Input input = new StubInput(Arrays.asList("5", "test name", "6"));
         new StartUI(input, tracker).init();
