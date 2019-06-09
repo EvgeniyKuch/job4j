@@ -53,7 +53,8 @@
         <module>chapter_004</module>
 		<module>chapter_005</module>
         <module>chapter_006</module>
-    </modules>
+		<module>chapter_007</module>
+	</modules>
 	
 	<dependencies>
 		<dependency>
