@@ -53,6 +53,10 @@ public class User {
         return createDate;
     }
 
+    public String getDate() {
+        return new Date(createDate).toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
