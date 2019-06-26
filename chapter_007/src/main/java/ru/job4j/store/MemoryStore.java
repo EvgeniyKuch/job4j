@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MemoryStore implements Store {
+public class MemoryStore implements Store<User> {
     private static final MemoryStore INSTANCE = new MemoryStore();
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private final AtomicInteger id = new AtomicInteger(0);
