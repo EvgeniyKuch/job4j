@@ -5,12 +5,13 @@ import ru.job4j.models.UserAlreadyExists;
 import ru.job4j.models.UserDoesNotExist;
 import ru.job4j.store.MemoryStore;
 import ru.job4j.store.Store;
+import ru.job4j.store.dbservice.DBStore;
 
 import java.util.Map;
 
 public class ValidateService {
     private static final ValidateService INSTANCE = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store<User> store = DBStore.getInstance();
 
     private ValidateService() {
 
