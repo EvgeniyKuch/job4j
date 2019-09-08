@@ -3,6 +3,7 @@ package ru.job4j.servlets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.models.Role;
 import ru.job4j.models.User;
 import ru.job4j.models.UserAlreadyExists;
 import ru.job4j.models.UserDoesNotExist;
@@ -27,7 +28,7 @@ public class UserUpdateServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(req.getParameter("id"));
             User user = logic.findByID(id);
-            req.setAttribute("user", user);
+            req.setAttribute("editingUser", user);
             req.getRequestDispatcher("/WEB-INF/jsp/update.jsp").forward(req, resp);
         } catch (UserDoesNotExist e) {
             LOG.error(e.getMessage(), e);
@@ -36,18 +37,24 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+            throws IOException, ServletException {
         try {
+            String role = ((User) req.getSession().getAttribute("user")).getRole().getRule();
+            role = "root".equals(role) ? req.getParameter("role") : role;
             User editedUser = new User(
                     Integer.parseInt(req.getParameter("id")),
                     req.getParameter("name"),
                     req.getParameter("login"),
                     req.getParameter("email"),
-                    new Date().getTime()
+                    new Date().getTime(),
+                    req.getParameter("password"),
+                    new Role(role)
             );
             logic.update(editedUser);
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
-        } catch (UserDoesNotExist | UserAlreadyExists e) {
+        } catch (UserAlreadyExists e) {
+            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+        } catch (UserDoesNotExist e) {
             LOG.error(e.getMessage(), e);
         }
     }

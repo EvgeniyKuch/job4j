@@ -9,17 +9,20 @@ public class User {
     private String login;
     private String email;
     private long createDate;
+    private String password;
+    private Role role;
 
     public User(int id) {
         this.id = id;
     }
 
-    public User(int id, String name, String login, String email, long createDate) {
+    public User(int id, String name, String login, String email, long createDate, Role role) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = createDate;
+        this.role = role;
     }
 
     public User(String name, String login, String email, long createDate) {
@@ -27,6 +30,25 @@ public class User {
         this.login = login;
         this.email = email;
         this.createDate = createDate;
+    }
+
+    public User(int id, String name, String login, String email, long createDate, String pass, Role role) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = createDate;
+        this.password = pass;
+        this.role = role;
+    }
+
+    public User(String name, String login, String email, long createDate, String pass, Role role) {
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = createDate;
+        this.password = pass;
+        this.role = role;
     }
 
     public int getId() {
@@ -57,6 +79,18 @@ public class User {
         return new Date(createDate).toString();
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -66,14 +100,19 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(name, user.name)
+        return id == user.id
+                && createDate == user.createDate
+                && Objects.equals(name, user.name)
                 && Objects.equals(login, user.login)
-                && Objects.equals(email, user.email);
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, email, createDate);
+
+        return Objects.hash(id, name, login, email, createDate, password, role);
     }
 
     @Override

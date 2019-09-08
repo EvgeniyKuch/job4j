@@ -3,6 +3,7 @@ package ru.job4j.servlets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.models.Role;
 import ru.job4j.models.User;
 import ru.job4j.models.UserAlreadyExists;
 
@@ -33,7 +34,9 @@ public class UserCreateServlet extends HttpServlet {
                     req.getParameter("name"),
                     req.getParameter("login"),
                     req.getParameter("email"),
-                    new Date().getTime()
+                    new Date().getTime(),
+                    req.getParameter("password"),
+                    new Role(req.getParameter("role"))
             );
             logic.add(newUser);
             resp.sendRedirect(String.format("%s/create", req.getContextPath()));

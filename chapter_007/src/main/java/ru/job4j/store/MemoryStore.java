@@ -43,4 +43,17 @@ public class MemoryStore implements Store<User> {
     public User findByID(int id) {
         return users.getOrDefault(id, new User(-1));
     }
+
+    @Override
+    public User findByLoginPassword(String login, String password) {
+        User result = new User(-1);
+        for (User user : users.values()) {
+            if (user.getLogin().equals(login)
+                    && user.getPassword().equals(password)) {
+                result = user;
+                break;
+            }
+        }
+        return result;
+    }
 }

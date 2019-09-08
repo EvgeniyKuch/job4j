@@ -8,4 +8,5 @@ public interface Store<T> {
     void delete(T model);
     Map<Integer, T> findAll();
     T findByID(int id);
+    T findByLoginPassword(String login, String password);
 }

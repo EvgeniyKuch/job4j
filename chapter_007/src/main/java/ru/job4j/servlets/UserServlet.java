@@ -3,6 +3,7 @@ package ru.job4j.servlets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.models.Role;
 import ru.job4j.models.User;
 
 import javax.servlet.annotation.WebServlet;
@@ -64,13 +65,16 @@ public class UserServlet extends HttpServlet {
 
     private ConsumerEx<HttpServletRequest> update() {
         return req -> {
-            int id = Integer.parseInt(req.getParameter("id"));
-            String newName = req.getParameter("name");
             logic.update(
                     new User(
-                            id, newName, newName,
-                            newName + "@gmail.com",
-                            new Date().getTime()
+                            Integer.parseInt(req.getParameter("id")),
+                            req.getParameter("name"),
+                            req.getParameter("login"),
+                            req.getParameter("email"),
+                            new Date().getTime(),
+                            req.getParameter("password"),
+                            new Role(Integer.parseInt(req.getParameter("id")),
+                                    req.getParameter("rule"))
                     )
             );
         };

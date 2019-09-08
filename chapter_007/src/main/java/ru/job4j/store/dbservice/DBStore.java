@@ -32,20 +32,15 @@ public class DBStore implements Store<User> {
             SOURCE.setMinIdle(5);
             SOURCE.setMaxIdle(10);
             SOURCE.setMaxOpenPreparedStatements(100);
-            preInit();
+            new UsersDAO(SOURCE).createScheme();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
-    private void preInit() throws SQLException {
-        new UsersDAO(SOURCE).createTable();
-    }
-
     public static DBStore getInstance() {
         return INSTANCE;
     }
-
 
     @Override
     public void add(User model) {
@@ -90,6 +85,17 @@ public class DBStore implements Store<User> {
         User result = new User(-1);
         try {
             result = new UsersDAO(SOURCE).findUserByID(id);
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public User findByLoginPassword(String login, String password) {
+        User result = new User(-1);
+        try {
+            result = new UsersDAO(SOURCE).isCredentional(login, password);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }

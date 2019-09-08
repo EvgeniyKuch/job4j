@@ -19,9 +19,23 @@
             <td><b>E-mail:</b></td>
             <td><input type="text" name="email"></td>
         </tr>
+        <tr>
+            <td><b>Password:</b></td>
+            <td><input type="text" name="password"></td>
+        </tr>
+        <tr>
+            <td><b>Role:</b></td>
+            <td>
+                <select name="role">
+                    <option value="root">Root</option>
+                    <option value="user">User</option>
+                </select>
+            </td>
+        </tr>
     </table>
     <p><input type="submit" value="Create">
 </form>
 <p><a href="${pageContext.request.contextPath}/">User list</a></p>
+<p><a href="${pageContext.request.contextPath}/signout">Sign Out</a></p>
 </body>
 </html>

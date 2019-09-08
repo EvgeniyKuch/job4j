@@ -49,6 +49,10 @@ public class ValidateService {
         return result;
     }
 
+    public User isCredentional(String login, String password) {
+        return store.findByLoginPassword(login, password);
+    }
+
     private void findUser(User user) throws UserAlreadyExists {
         if (store.findAll().containsValue(user)) {
             throw new UserAlreadyExists();

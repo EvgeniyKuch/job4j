@@ -3,6 +3,7 @@ package ru.job4j.servlets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.models.Role;
 import ru.job4j.models.User;
 import ru.job4j.models.UserDoesNotExist;
 
@@ -22,8 +23,18 @@ public class UsersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        req.setAttribute("list", logic.findAll().values());
-        req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
+        try {
+            User user = ((User) req.getSession().getAttribute("user"));
+            Role role = user.getRole();
+            if ("root".equals(role.getRule())) {
+                req.setAttribute("list", logic.findAll().values());
+            } else {
+                req.setAttribute("list", new User[]{logic.findByID(user.getId())});
+            }
+            req.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(req, resp);
+        } catch (UserDoesNotExist e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
     @Override
