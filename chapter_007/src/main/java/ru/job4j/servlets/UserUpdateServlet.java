@@ -9,14 +9,17 @@ import ru.job4j.models.UserAlreadyExists;
 import ru.job4j.models.UserDoesNotExist;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.Date;
 
 @WebServlet(value = "/edit", loadOnStartup = 3)
+@MultipartConfig
 public class UserUpdateServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UserUpdateServlet.class.getName());
 
@@ -41,8 +44,9 @@ public class UserUpdateServlet extends HttpServlet {
         try {
             String role = ((User) req.getSession().getAttribute("user")).getRole().getRule();
             role = "root".equals(role) ? req.getParameter("role") : role;
+            int id = Integer.parseInt(req.getParameter("id"));
             User editedUser = new User(
-                    Integer.parseInt(req.getParameter("id")),
+                    id,
                     req.getParameter("name"),
                     req.getParameter("login"),
                     req.getParameter("email"),
@@ -50,6 +54,12 @@ public class UserUpdateServlet extends HttpServlet {
                     req.getParameter("password"),
                     new Role(role)
             );
+            Part photo = req.getPart("photo");
+            if (!"".equals(photo.getSubmittedFileName())) {
+                editedUser.setPhoto(photo.getInputStream());
+            } else {
+                editedUser.setPhoto(logic.findByID(id).getPhoto());
+            }
             logic.update(editedUser);
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } catch (UserAlreadyExists e) {

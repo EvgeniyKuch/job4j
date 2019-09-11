@@ -1,5 +1,6 @@
 package ru.job4j.models;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class User {
     private long createDate;
     private String password;
     private Role role;
+    private InputStream photo;
 
     public User(int id) {
         this.id = id;
@@ -89,6 +91,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public InputStream getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(InputStream photo) {
+        this.photo = photo;
     }
 
     @Override

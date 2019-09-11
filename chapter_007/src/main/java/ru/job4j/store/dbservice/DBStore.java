@@ -7,6 +7,7 @@ import ru.job4j.models.User;
 import ru.job4j.store.Store;
 import ru.job4j.store.dbservice.dao.UsersDAO;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class DBStore implements Store<User> {
     public void add(User model) {
         try {
             new UsersDAO(SOURCE).insertUser(model);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             LOG.error(e.getMessage(), e);
         }
     }
@@ -55,7 +56,7 @@ public class DBStore implements Store<User> {
     public void update(User model) {
         try {
             new UsersDAO(SOURCE).updateUser(model);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             LOG.error(e.getMessage(), e);
         }
     }

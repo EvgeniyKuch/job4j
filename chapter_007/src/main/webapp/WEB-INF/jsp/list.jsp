@@ -10,6 +10,7 @@
     <caption>Users list</caption>
     <tr>
         <th>id</th>
+        <th>Photo</th>
         <th>Name</th>
         <th>Login</th>
         <th>E-mail</th>
@@ -21,32 +22,35 @@
             <th>Delete</th>
         </c:if>
     </tr><c:forEach var="user" items="${list}">
-        <tr>
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.login}</td>
-            <td>${user.email}</td>
-            <td>${user.date}</td>
-            <td>${user.password}</td>
-            <td>${user.role.rule}</td>
+    <tr>
+        <td>${user.id}</td>
+        <td><a href="${pageContext.request.contextPath}/photo?id=${user.id}">
+            <img src="${pageContext.request.contextPath}/photo?id=${user.id}" height="200"/></a>
+        </td>
+        <td>${user.name}</td>
+        <td>${user.login}</td>
+        <td>${user.email}</td>
+        <td>${user.date}</td>
+        <td>${user.password}</td>
+        <td>${user.role.rule}</td>
+        <td>
+            <form method="GET" action="${pageContext.request.contextPath}/edit">
+                <input type="hidden" name="id" value="${user.id}">
+                <input type="submit" value="Edit">
+            </form>
+        </td>
+        <c:if test="${sessionScope.user.role.rule == 'root'}">
             <td>
-                <form method="GET" action="${pageContext.request.contextPath}/edit">
+                <form method="POST" action="${pageContext.request.contextPath}/">
                     <input type="hidden" name="id" value="${user.id}">
-                    <input type="submit" value="Edit">
+                    <input type="submit" value="Delete">
                 </form>
             </td>
-            <c:if test="${sessionScope.user.role.rule == 'root'}">
-                <td>
-                    <form method="POST" action="${pageContext.request.contextPath}/">
-                        <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </c:if>
-        </tr></c:forEach>
+        </c:if>
+    </tr></c:forEach>
 </table>
 <c:if test="${sessionScope.user.role.rule == 'root'}">
-<p><a href="${pageContext.request.contextPath}/create">Create new user</a></p>
+    <p><a href="${pageContext.request.contextPath}/create">Create new user</a></p>
 </c:if>
 <p><a href="${pageContext.request.contextPath}/signout">Sign Out</a></p>
 </body>

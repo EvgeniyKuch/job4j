@@ -5,7 +5,8 @@
     <title>Create user</title>
 </head>
 <body>
-<form method="post" action="${pageContext.request.contextPath}/create">
+<form method="post" action="${pageContext.request.contextPath}/create"
+      enctype="multipart/form-data">
     <table>
         <tr>
             <td><b>Name:</b></td>
@@ -31,6 +32,10 @@
                     <option value="user">User</option>
                 </select>
             </td>
+        </tr>
+        <tr>
+        <td><b>Photo:</b></td>
+        <td><input type="file" name="photo" accept="image/jpeg,image/png"></td>
         </tr>
     </table>
     <p><input type="submit" value="Create">

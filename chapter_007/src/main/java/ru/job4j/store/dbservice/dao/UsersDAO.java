@@ -5,6 +5,10 @@ import ru.job4j.models.Role;
 import ru.job4j.models.User;
 import ru.job4j.store.dbservice.executor.Executor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,28 +24,38 @@ public class UsersDAO {
         this.executor = new Executor(source);
     }
 
-    public void insertUser(User user) throws SQLException {
+    public void insertUser(User user) throws SQLException, IOException {
+        InputStream photo = user.getPhoto();
+        if (photo == null) {
+            photo = UsersDAO.class.getClassLoader()
+                    .getResourceAsStream("Default.jpg");
+            user.setPhoto(photo);
+        }
         executor.execEdit(
-                "INSERT INTO users (name, login, email, createDate, password, role_id)"
-                        + " SELECT ?, ?, ?, ?, ?, id FROM roles WHERE rule = ?",
+                "INSERT INTO users (name, login, email, createDate, password, role_id, photo)"
+                        + " SELECT ?, ?, ?, ?, ?, id, ? FROM roles WHERE rule = ?",
                 st -> {
                     acceptStatementForEditing(st, user);
-                    st.setString(6, user.getRole().getRule());
+                    st.setBinaryStream(6, user.getPhoto());
+                    st.setString(7, user.getRole().getRule());
                 }
         );
+        photo.close();
     }
 
-    public void updateUser(User user) throws SQLException {
+    public void updateUser(User user) throws SQLException, IOException {
         executor.execEdit(
                 "UPDATE users"
-                        + " SET name = ?, login = ?, email = ?, createDate = ?, password = ?, role_id = ?"
+                        + " SET name = ?, login = ?, email = ?, createDate = ?, password = ?, role_id = ?, photo = ?"
                         + " WHERE id = ?;",
                 st -> {
                     acceptStatementForEditing(st, user);
                     st.setInt(6, findRole(user.getRole().getRule()));
-                    st.setInt(7, user.getId());
+                    st.setBinaryStream(7, user.getPhoto());
+                    st.setInt(8, user.getId());
                 }
         );
+        user.getPhoto().close();
     }
 
     private int findRole(String rule) throws SQLException {
@@ -69,7 +83,7 @@ public class UsersDAO {
 
     public Map<Integer, User> findAllUsers() throws SQLException {
         return executor.execQuery(
-                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, r.rule"
+                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, u.photo, r.rule"
                         + " FROM users AS u"
                         + "     LEFT OUTER JOIN roles AS r"
                         + "     ON u.role_id=r.id"
@@ -88,7 +102,7 @@ public class UsersDAO {
 
     public User findUserByID(int id) throws SQLException {
         return executor.execQuery(
-                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, r.rule"
+                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, u.photo, r.rule"
                         + " FROM users AS u"
                         + "     LEFT OUTER JOIN roles AS r"
                         + "     ON u.role_id=r.id"
@@ -99,7 +113,7 @@ public class UsersDAO {
         );
     }
 
-    public void  createScheme() throws SQLException {
+    public void  createScheme() throws SQLException, IOException {
         executor.execEdit(
                 "CREATE TABLE IF NOT EXISTS roles ("
                         + " id SERIAL   PRIMARY KEY,"
@@ -117,6 +131,7 @@ public class UsersDAO {
                         + " email       VARCHAR(255),"
                         + " createDate  TIMESTAMP,"
                         + " password    VARCHAR(255),"
+                        + " photo       BYTEA,"
                         + " role_id     INTEGER REFERENCES roles(id) NOT NULL"
                         + ");",
                 st -> { }
@@ -124,7 +139,7 @@ public class UsersDAO {
         insertAdminIfNotExist();
     }
 
-    private void insertAdminIfNotExist() throws SQLException {
+    private void insertAdminIfNotExist() throws SQLException, IOException {
         if (!existAdmin()) {
             insertUser(new User("Eugene", "admin",
                     "evgeniy.kuchumov@gmail.com", new Date().getTime(),
@@ -169,7 +184,7 @@ public class UsersDAO {
 
     public User isCredentional(String login, String password) throws SQLException {
         return executor.execQuery(
-                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, r.rule"
+                "SELECT u.id, u.name, u.login, u.email, u.createDate, u.password, u.role_id, u.photo, r.rule"
                         + " FROM users AS u"
                         + "     LEFT OUTER JOIN roles AS r"
                         + "     ON u.role_id=r.id"
@@ -184,7 +199,7 @@ public class UsersDAO {
     }
 
     private User userFromResultSet(ResultSet rs) throws SQLException {
-        return new User(
+        User user = new User(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("login"),
@@ -193,6 +208,8 @@ public class UsersDAO {
                 rs.getString("password"),
                 new Role(rs.getInt("role_id"), rs.getString("rule"))
         );
+        user.setPhoto(rs.getBinaryStream("photo"));
+        return user;
     }
 
     private User userOrEmptyFromResultSet(ResultSet rs) throws SQLException {

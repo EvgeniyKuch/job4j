@@ -5,7 +5,8 @@
     <title>Editing user</title>
 </head>
 <body>
-<form method="post" action="${pageContext.request.contextPath}/edit">
+<form method="post" action="${pageContext.request.contextPath}/edit"
+      enctype="multipart/form-data">
     <input type="hidden" name="id" value="${editingUser.id}">
     <table>
         <tr>
@@ -23,6 +24,10 @@
         <tr>
             <td><b>Password:</b></td>
             <td><input type="text" name="password" value="${editingUser.password}"></td>
+        </tr>
+        <tr>
+            <td><b>Photo:</b></td>
+            <td><input type="file" name="photo" accept="image/jpeg,image/png"></td>
         </tr>
         <c:if test="${sessionScope.user.role.rule == 'root'}">
             <tr>
