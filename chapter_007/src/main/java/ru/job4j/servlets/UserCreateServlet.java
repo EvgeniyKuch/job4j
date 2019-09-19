@@ -2,6 +2,7 @@ package ru.job4j.servlets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.models.Role;
 import ru.job4j.models.User;
@@ -22,7 +23,7 @@ import java.util.Date;
 public class UserCreateServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UserCreateServlet.class.getName());
 
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate<User> logic = ValidateService.getInstance();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,7 +43,7 @@ public class UserCreateServlet extends HttpServlet {
                     new Role(req.getParameter("role"))
             );
             Part photo = req.getPart("photo");
-            if (!"".equals(photo.getSubmittedFileName())) {
+            if (photo != null && !"".equals(photo.getSubmittedFileName())) {
                 newUser.setPhoto(photo.getInputStream());
             }
             logic.add(newUser);

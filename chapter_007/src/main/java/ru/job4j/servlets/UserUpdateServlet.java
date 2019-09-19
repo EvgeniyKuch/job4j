@@ -2,6 +2,7 @@ package ru.job4j.servlets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.models.Role;
 import ru.job4j.models.User;
@@ -23,7 +24,7 @@ import java.util.Date;
 public class UserUpdateServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UserUpdateServlet.class.getName());
 
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate<User> logic = ValidateService.getInstance();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -55,7 +56,7 @@ public class UserUpdateServlet extends HttpServlet {
                     new Role(role)
             );
             Part photo = req.getPart("photo");
-            if (!"".equals(photo.getSubmittedFileName())) {
+            if (photo != null && !"".equals(photo.getSubmittedFileName())) {
                 editedUser.setPhoto(photo.getInputStream());
             } else {
                 editedUser.setPhoto(logic.findByID(id).getPhoto());
