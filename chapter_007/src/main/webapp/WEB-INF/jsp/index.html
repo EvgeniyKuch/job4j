@@ -7,6 +7,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+		let inputs = ['#firstname', '#lastname', '#gender', '#description'];
+		
+        function validate() {
+			for (let input of inputs) {
+				if($(input).val() == "") {
+					alert($(input).attr('title'));
+				}
+			}
+            return false;
+        }
+    </script>
 </head>
 <body>
 
@@ -15,21 +27,21 @@
   <form action="/action_page.php">
     <div class="form-group">
       <label for="firstname">Имя:</label>
-      <input type="text" class="form-control" id="firstname" placeholder="Иван" name="firstname">
+      <input type="text" class="form-control" id="firstname" title="Введите имя" placeholder="Иван" name="firstname">
     </div>
      <div class="form-group">
       <label for="lastname">Фамилия:</label>
-      <input type="text" class="form-control" id="lastname" placeholder="Иванов" name="lastname">
+      <input type="text" class="form-control" id="lastname" title="Введите фамилию" placeholder="Иванов" name="lastname">
     </div>
 	 <div class="form-group">
       <label for="gender">Пол:</label>
-      <input type="text" class="form-control" id="gender" placeholder="ivanov@gmail.com" name="gender">
+      <input type="text" class="form-control" id="gender" title="Введите пол" placeholder="Муж" name="gender">
     </div>
 	 <div class="form-group">
       <label for="description">Описание:</label>
-      <input type="text" class="form-control" id="description" placeholder="Просто Иван" name="description">
+      <input type="text" class="form-control" id="description" title="Введите описание" placeholder="Просто Иван" name="description">
     </div>
-	<button type="submit" class="btn btn-default">Отправить</button>
+	<button type="submit" class="btn btn-default"  onclick="return validate();">Отправить</button>
   </form>
 </div>
 
